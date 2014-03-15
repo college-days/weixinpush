@@ -9,3 +9,11 @@
 
 * python 2.7.x
 * requests
+
+### settings
+
+* 在login()的loginParams中填入username和password，参数值第一次可以通过抓包来分析
+
+### common bugs
+
+* getUserCount() 在使用两次pushSingleMsg()会出现bug崩溃，有待调试

@@ -42,8 +42,8 @@ class WeixinPublic:
         """docstring for login"""
 
         loginParams = {
-            'username': 'enactuszju',
-            'pwd': '0a587b5178e2ab7a481dba990c2f00f8',
+            'username': '',
+            'pwd': '',
             'imgcode': '',
             'f': 'json'
         }
@@ -237,37 +237,40 @@ class WeixinPublic:
             time.sleep(1)
 
 if __name__ == '__main__':
-    weixin = WeixinPublic()
-    if os.path.exists(usercountPath):
-        file = open(usercountPath, 'r')
-        oldUserCount = int(file.readline())
-        file.close()
-    else:
-        print 'no oldUserCount exists'
-    
-    if os.path.exists(usercopyPath):
-        file = open(usercopyPath, 'r')
-        for line in file.readlines():
-            userDetails = line[:-1].split(', ')
-            userInfos = []
-            for detail in userDetails:
-                userInfos.append(detail.split(':')[-1])
-            weixin.userList.append(User(userInfos[0], userInfos[1]))
-        file.close()
-    else:
-        print 'no oldUserList exists'
+    while True:
+        weixin = WeixinPublic()
+        if os.path.exists(usercountPath):
+            file = open(usercountPath, 'r')
+            oldUserCount = int(file.readline())
+            file.close()
+        else:
+            print 'no oldUserCount exists'
+        
+        if os.path.exists(usercopyPath):
+            file = open(usercopyPath, 'r')
+            for line in file.readlines():
+                userDetails = line[:-1].split(', ')
+                userInfos = []
+                for detail in userDetails:
+                    userInfos.append(detail.split(':')[-1])
+                weixin.userList.append(User(userInfos[0], userInfos[1]))
+            file.close()
+        else:
+            print 'no oldUserList exists'
 
-    weixin.login()
-    weixin.getUserCount()
-    if weixin.userCount != oldUserCount or weixin.userList == []:
-        weixin.getAllUserList()
-        weixin.echoAllUser()        
-        print 'should refresh userlist!'
-    else:
-        weixin.echoAllUser()
-        print 'userlist is not changed'
-    
-    #time.sleep(1)
-    #weixin.singlePushMsg('3', 1835682900)
-    weixin.pushMsgToAll('大家新年快乐!')
+        weixin.login()
+        weixin.getUserCount()
+        if weixin.userCount != oldUserCount or weixin.userList == []:
+            weixin.getAllUserList()
+            weixin.echoAllUser()        
+            print 'should refresh userlist!'
+        else:
+            weixin.echoAllUser()
+            print 'userlist is not changed'
+        
+        time.sleep(3)
+        weixin.singlePushMsg('3', 1835682900)
+        time.sleep(3)
+        weixin.singlePushMsg('3', 1534621360)
+        #weixin.pushMsgToAll('大家新年快乐!')
 
